@@ -1,4 +1,4 @@
-package com.sde.project.database.errors;
+package com.sde.project.database.models;
 
 import java.util.Objects;
 

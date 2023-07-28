@@ -1,5 +1,6 @@
-package com.sde.project.database.errors;
+package com.sde.project.database;
 
+import com.sde.project.database.models.ExceptionResponse;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
@@ -37,7 +39,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(responseBody, new HttpHeaders(), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(value = {PermissionDeniedDataAccessException.class, AccessDeniedException.class, AuthenticationException.class})
+    @ExceptionHandler(value = {PermissionDeniedDataAccessException.class, AccessDeniedException.class, AuthenticationException.class, BadCredentialsException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ApiResponse(content = @Content(schema = @Schema(implementation = ExceptionResponse.class), mediaType = "application/json"))
     protected ResponseEntity<Object> handlePermissionDenied(RuntimeException ex, WebRequest request) {
@@ -63,7 +65,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(responseBody, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = {Exception.class})
+    @ExceptionHandler(value = {Exception.class, RuntimeException.class, IllegalStateException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ApiResponse(content = @Content(schema = @Schema(implementation = ExceptionResponse.class), mediaType = "application/json"))
     protected ResponseEntity<Object> handleOtherExceptions(RuntimeException ex, WebRequest request) {

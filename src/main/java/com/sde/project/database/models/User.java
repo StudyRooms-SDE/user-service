@@ -1,4 +1,4 @@
-package com.sde.project.database.user;
+package com.sde.project.database.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Table(name = "users")
 @Entity(name = "users")
-@JsonIgnoreProperties("password")
 public class User {
     @Id
     @UuidGenerator()
@@ -29,6 +28,12 @@ public class User {
     public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
+        this.email = email;
+    }
+
+    public User(UUID id, String username, String email) {
+        this.id = id;
+        this.username = username;
         this.email = email;
     }
 

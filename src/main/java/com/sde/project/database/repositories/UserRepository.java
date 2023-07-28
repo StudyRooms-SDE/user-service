@@ -1,5 +1,6 @@
-package com.sde.project.database.user;
+package com.sde.project.database.repositories;
 
+import com.sde.project.database.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,4 +14,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT u FROM users u WHERE u.username = ?1")
     Optional<User> findByUsername(String username);
 
+    @Query("SELECT u FROM users u WHERE u.email = ?1")
+    Optional<Object> findByEmail(String email);
 }
