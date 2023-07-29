@@ -11,12 +11,14 @@ import java.util.UUID;
 
 @Table(name = "users")
 @Entity(name = "users")
+@JsonIgnoreProperties({"password"})
 public class User {
     @Id
     @UuidGenerator()
     private UUID id;
     @Column(name = "username", unique = true, nullable = false)
     private String username;
+
     @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "email", unique = true, nullable = false)

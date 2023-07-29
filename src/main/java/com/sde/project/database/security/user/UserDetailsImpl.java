@@ -1,6 +1,6 @@
 package com.sde.project.database.security.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sde.project.database.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,12 +10,13 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
 
+@JsonIgnoreProperties({"password"})
+
 public class UserDetailsImpl implements UserDetails {
     private UUID id;
 
     private String username;
 
-    @JsonIgnore
     private String password;
 
     private String email;
