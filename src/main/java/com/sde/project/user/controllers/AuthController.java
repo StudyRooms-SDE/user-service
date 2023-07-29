@@ -1,12 +1,11 @@
-package com.sde.project.database.controllers;
+package com.sde.project.user.controllers;
 
-import com.sde.project.database.models.LoginRequest;
-import com.sde.project.database.models.User;
-import com.sde.project.database.services.UserService;
-import com.sde.project.database.security.jwt.JwtUtils;
+import com.sde.project.user.models.LoginRequest;
+import com.sde.project.user.models.User;
+import com.sde.project.user.services.UserService;
+import com.sde.project.user.security.jwt.JwtUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

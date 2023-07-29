@@ -1,10 +1,10 @@
-package com.sde.project.database;
+package com.sde.project.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DatabaseServiceApplicationTests {
+class UserServiceApplicationTests {
 
     @Test
     void contextLoads() {

@@ -1,6 +1,6 @@
-package com.sde.project.database.repositories;
+package com.sde.project.user.repositories;
 
-import com.sde.project.database.models.User;
+import com.sde.project.user.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

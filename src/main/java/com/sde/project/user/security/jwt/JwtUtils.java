@@ -1,6 +1,6 @@
-package com.sde.project.database.security.jwt;
+package com.sde.project.user.security.jwt;
 
-import com.sde.project.database.models.User;
+import com.sde.project.user.models.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.io.Decoders;

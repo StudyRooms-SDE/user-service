@@ -1,6 +1,6 @@
-package com.sde.project.database.security.jwt;
+package com.sde.project.user.security.jwt;
 
-import com.sde.project.database.services.UserService;
+import com.sde.project.user.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

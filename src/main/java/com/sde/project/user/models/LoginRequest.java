@@ -1,7 +1,6 @@
-package com.sde.project.database.models;
+package com.sde.project.user.models;
 
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
 
 public class LoginRequest {
     @NotNull(message = "Username cannot be empty")

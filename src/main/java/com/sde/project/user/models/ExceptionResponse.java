@@ -1,6 +1,4 @@
-package com.sde.project.database.models;
-
-import java.util.Objects;
+package com.sde.project.user.models;
 
 public record ExceptionResponse(String timestamp, int status, String error, String message, String path) {
 

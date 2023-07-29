@@ -1,7 +1,7 @@
-package com.sde.project.database.security;
+package com.sde.project.user.security;
 
-import com.sde.project.database.security.jwt.AuthTokenFilter;
-import com.sde.project.database.services.UserService;
+import com.sde.project.user.security.jwt.AuthTokenFilter;
+import com.sde.project.user.services.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

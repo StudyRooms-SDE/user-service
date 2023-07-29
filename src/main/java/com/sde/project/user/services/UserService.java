@@ -1,8 +1,8 @@
-package com.sde.project.database.services;
+package com.sde.project.user.services;
 
-import com.sde.project.database.models.User;
-import com.sde.project.database.repositories.UserRepository;
-import com.sde.project.database.security.jwt.JwtUtils;
+import com.sde.project.user.models.User;
+import com.sde.project.user.repositories.UserRepository;
+import com.sde.project.user.security.jwt.JwtUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

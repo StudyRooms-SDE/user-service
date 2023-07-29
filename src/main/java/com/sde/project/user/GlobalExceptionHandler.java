@@ -1,6 +1,6 @@
-package com.sde.project.database;
+package com.sde.project.user;
 
-import com.sde.project.database.models.ExceptionResponse;
+import com.sde.project.user.models.ExceptionResponse;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
