@@ -1,6 +1,6 @@
 package com.sde.project.database.security.jwt;
 
-import com.sde.project.database.security.user.UserDetailsImpl;
+import com.sde.project.database.models.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.io.Decoders;
@@ -34,7 +34,7 @@ public class JwtUtils {
         }
     }
 
-    public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
+    public ResponseCookie generateJwtCookie(User userPrincipal) {
         String jwt = generateTokenFromUsername(userPrincipal.getUsername());
         return ResponseCookie.from(jwtCookie, jwt)
                 .path("/api/v1")

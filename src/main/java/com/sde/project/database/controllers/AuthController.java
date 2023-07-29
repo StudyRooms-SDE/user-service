@@ -2,9 +2,8 @@ package com.sde.project.database.controllers;
 
 import com.sde.project.database.models.LoginRequest;
 import com.sde.project.database.models.User;
-import com.sde.project.database.repositories.UserRepository;
+import com.sde.project.database.services.UserService;
 import com.sde.project.database.security.jwt.JwtUtils;
-import com.sde.project.database.security.user.UserDetailsImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,10 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController()
 @RequestMapping(path = "/api/v1/auth")
@@ -25,16 +21,16 @@ public class AuthController {
 
     AuthenticationManager authenticationManager;
 
-    UserRepository userRepository;
+    UserService userService;
 
     PasswordEncoder passwordEncoder;
 
     JwtUtils jwtUtils;
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
+    public AuthController(AuthenticationManager authenticationManager, UserService userService, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
     }
@@ -50,7 +46,7 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User userDetails = (User) authentication.getPrincipal();
 
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
@@ -59,21 +55,14 @@ public class AuthController {
 
     @PostMapping(path = "/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> register(@RequestBody User authRequest) {
-        userRepository.findByUsername(authRequest.getUsername()).ifPresent(user -> {
-            throw new DataIntegrityViolationException("Username is already taken!");
-        });
+    public void register(@RequestBody User user) {
+        userService.checkUniqueUser(user);
 
-        userRepository.findByEmail(authRequest.getEmail()).ifPresent(user -> {
-            throw new DataIntegrityViolationException("Email is already taken!");
-        });
-        User user = new User(authRequest.getUsername(),
-                passwordEncoder.encode(authRequest.getPassword()),
-                authRequest.getEmail());
+        User encodedUser = new User(user.getUsername(),
+                passwordEncoder.encode(user.getPassword()),
+                user.getEmail());
 
-        userRepository.save(user);
-
-        return ResponseEntity.created(null).body(null);
+        userService.getUserRepository().save(encodedUser);
     }
 
     @PostMapping(path = "/logout")

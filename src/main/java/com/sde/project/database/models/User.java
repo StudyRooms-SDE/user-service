@@ -1,18 +1,22 @@
 package com.sde.project.database.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.UuidGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
 import java.util.UUID;
 
 @Table(name = "users")
 @Entity(name = "users")
-@JsonIgnoreProperties({"password"})
-public class User {
+public class User implements UserDetails {
     @Id
     @UuidGenerator()
     private UUID id;
@@ -20,6 +24,7 @@ public class User {
     private String username;
 
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
     @Column(name = "email", unique = true, nullable = false)
     private String email;
@@ -36,6 +41,13 @@ public class User {
     public User(UUID id, String username, String email) {
         this.id = id;
         this.username = username;
+        this.email = email;
+    }
+
+    public User(UUID id, String username, String password, String email) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
         this.email = email;
     }
 
@@ -79,5 +91,53 @@ public class User {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public static User build(User user) {
+        return new User(
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
+                user.getEmail());
+    }
+
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
     }
 }
