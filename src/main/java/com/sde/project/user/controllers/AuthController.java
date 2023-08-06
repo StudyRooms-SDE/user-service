@@ -1,6 +1,7 @@
 package com.sde.project.user.controllers;
 
 import com.sde.project.user.models.LoginRequest;
+import com.sde.project.user.models.RegisterRequest;
 import com.sde.project.user.models.User;
 import com.sde.project.user.services.UserService;
 import com.sde.project.user.security.jwt.JwtUtils;
@@ -54,7 +55,8 @@ public class AuthController {
 
     @PostMapping(path = "/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@RequestBody User user) {
+    public void register(@RequestBody RegisterRequest userRequest) {
+        User user = new User(userRequest.username(), userRequest.password(), userRequest.email());
         userService.checkUniqueUser(user);
 
         User encodedUser = new User(user.getUsername(),

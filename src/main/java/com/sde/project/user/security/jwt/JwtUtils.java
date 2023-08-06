@@ -39,6 +39,7 @@ public class JwtUtils {
         return ResponseCookie.from(jwtCookie, jwt)
                 .path("")
                 .sameSite("None")
+                .secure(true)
                 .maxAge(24 * 60 * 60)
                 .httpOnly(true)
                 .build();
