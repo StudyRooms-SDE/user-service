@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -18,13 +19,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive.*;
 
 
 @Configuration
@@ -59,7 +63,15 @@ public class SecurityConfiguration {
                         .requestMatchers(
                             "/api/v1/docs/**", "/api/v1/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/index.html", "/webjars/**").permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated())
+                .logout(logout -> {
+                    logout.logoutUrl("/api/v1/auth/logout");
+                    logout.clearAuthentication(true);
+                    logout.deleteCookies("jwt");
+                    logout.addLogoutHandler(new HeaderWriterLogoutHandler(
+                            new ClearSiteDataHeaderWriter(CACHE, COOKIES, STORAGE)));
+                    logout.permitAll().logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpStatus.OK.value()));
+                });
 
         http.authenticationProvider(authenticationProvider());
 

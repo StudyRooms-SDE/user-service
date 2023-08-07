@@ -15,7 +15,7 @@ public class UserController {
         this.userService = userService;
     }
     @GetMapping(path = "/me")
-    public User getUser(@RequestHeader("Authorization") String token) {
+    public User getUser(@CookieValue("jwt") String token) {
         return userService.getUserFromToken(token);
     }
 }

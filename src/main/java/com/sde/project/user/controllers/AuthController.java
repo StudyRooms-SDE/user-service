@@ -5,12 +5,14 @@ import com.sde.project.user.models.RegisterRequest;
 import com.sde.project.user.models.User;
 import com.sde.project.user.services.UserService;
 import com.sde.project.user.security.jwt.JwtUtils;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -68,9 +70,8 @@ public class AuthController {
 
     @PostMapping(path = "/logout")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> logoutUser() {
-        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(null);
+    public void logoutUser() {
+
     }
 
 }

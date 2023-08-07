@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User getUserFromToken(String token) {
-        String username = jwtUtils.getUserNameFromJwtToken(token.substring(7));
+        String username = jwtUtils.getUserNameFromJwtToken(token);
         return userRepository.findByUsername(username).orElseThrow(() -> new DataRetrievalFailureException("User not found"));
     }
 
