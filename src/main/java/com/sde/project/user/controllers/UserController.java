@@ -1,6 +1,6 @@
 package com.sde.project.user.controllers;
 
-import com.sde.project.user.models.User;
+import com.sde.project.user.models.tables.User;
 import com.sde.project.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

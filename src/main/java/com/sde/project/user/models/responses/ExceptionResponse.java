@@ -1,4 +1,4 @@
-package com.sde.project.user.models;
+package com.sde.project.user.models.responses;
 
 public record ExceptionResponse(String timestamp, int status, String error, String message, String path) {
 

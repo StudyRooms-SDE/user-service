@@ -1,4 +1,4 @@
-package com.sde.project.user.models;
+package com.sde.project.user.models.tables;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;

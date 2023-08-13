@@ -1,18 +1,16 @@
 package com.sde.project.user.controllers;
 
-import com.sde.project.user.models.LoginRequest;
-import com.sde.project.user.models.RegisterRequest;
-import com.sde.project.user.models.User;
+import com.sde.project.user.models.responses.LoginRequest;
+import com.sde.project.user.models.responses.RegisterRequest;
+import com.sde.project.user.models.tables.User;
 import com.sde.project.user.services.UserService;
-import com.sde.project.user.security.jwt.JwtUtils;
-import jakarta.servlet.http.HttpSession;
+import com.sde.project.user.config.security.jwt.JwtUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;

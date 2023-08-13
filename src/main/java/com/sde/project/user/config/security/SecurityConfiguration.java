@@ -1,6 +1,6 @@
-package com.sde.project.user.security;
+package com.sde.project.user.config.security;
 
-import com.sde.project.user.security.jwt.AuthTokenFilter;
+import com.sde.project.user.config.security.jwt.AuthTokenFilter;
 import com.sde.project.user.services.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

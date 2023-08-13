@@ -1,4 +1,4 @@
-package com.sde.project.user.models;
+package com.sde.project.user.models.responses;
 
 import jakarta.validation.constraints.NotNull;
 

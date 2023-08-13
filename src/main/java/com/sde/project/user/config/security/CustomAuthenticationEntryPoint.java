@@ -1,4 +1,4 @@
-package com.sde.project.user.security;
+package com.sde.project.user.config.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

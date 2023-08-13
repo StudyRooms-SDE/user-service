@@ -1,4 +1,4 @@
-package com.sde.project.user.security.jwt;
+package com.sde.project.user.config.security.jwt;
 
 import com.sde.project.user.services.UserService;
 import jakarta.servlet.FilterChain;
