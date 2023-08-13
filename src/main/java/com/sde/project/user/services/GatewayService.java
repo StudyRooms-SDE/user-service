@@ -1,5 +1,6 @@
 package com.sde.project.user.services;
 
+import com.sde.project.user.models.responses.SessionDetailsResponse;
 import com.sde.project.user.models.responses.SessionResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,4 +25,7 @@ public class GatewayService {
     }
 
 
+    public SessionDetailsResponse getSessionDetails(String userId, String sessionId) {
+        return restTemplate.getForObject(sessionServiceUrl+"/"+sessionId+"?userId="+userId, SessionDetailsResponse.class);
+    }
 }

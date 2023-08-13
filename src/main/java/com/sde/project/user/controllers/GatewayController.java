@@ -1,14 +1,12 @@
 package com.sde.project.user.controllers;
 
+import com.sde.project.user.models.responses.SessionDetailsResponse;
 import com.sde.project.user.models.responses.SessionResponse;
 import com.sde.project.user.models.tables.User;
 import com.sde.project.user.services.GatewayService;
 import com.sde.project.user.services.UserService;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +25,11 @@ public class GatewayController {
     public List<SessionResponse> getUserSessions(@CookieValue("jwt") String token) {
         User user = userService.getUserFromToken(token);
         return gatewayService.getUserSessions(user.getId().toString());
+    }
 
+    @GetMapping(path = "/sessions/{sessionId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public SessionDetailsResponse getSessionDetails(@CookieValue("jwt") String token, @PathVariable String sessionId) {
+        User user = userService.getUserFromToken(token);
+        return gatewayService.getSessionDetails(user.getId().toString(), sessionId);
     }
 }
