@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.boot.autoconfigure.service.connection.ConnectionDetailsNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.DuplicateKeyException;
@@ -49,7 +50,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 ex.getMessage(),
                 request.getDescription(false));
 
-        return new ResponseEntity<>(responseBody, new HttpHeaders(), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(responseBody, new HttpHeaders(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(value = {DataRetrievalFailureException.class})
@@ -76,6 +77,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 request.getDescription(false));
 
         return new ResponseEntity<>(responseBody, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = {ConnectionDetailsNotFoundException.class})
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    @ApiResponse(content = @Content(schema = @Schema(implementation = ExceptionResponse.class), mediaType = "application/json"))
+    protected ResponseEntity<Object> handleExternalApiExceptions(RuntimeException ex, WebRequest request) {
+        ExceptionResponse responseBody = new ExceptionResponse(Instant.now().toString(),
+                HttpStatus.BAD_GATEWAY.value(),
+                HttpStatus.BAD_GATEWAY.getReasonPhrase(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(responseBody, new HttpHeaders(), HttpStatus.BAD_GATEWAY);
     }
 
 }

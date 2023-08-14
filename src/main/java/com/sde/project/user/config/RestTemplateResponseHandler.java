@@ -2,6 +2,7 @@ package com.sde.project.user.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sde.project.user.models.responses.ExceptionResponse;
+import org.springframework.boot.autoconfigure.service.connection.ConnectionDetailsNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
@@ -22,7 +23,9 @@ public class RestTemplateResponseHandler implements ResponseErrorHandler {
     // throw new exception to be handled by the controller advice
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
+
         ExceptionResponse exceptionResponse = new ObjectMapper().readValue(response.getBody(), ExceptionResponse.class);
+
         switch (exceptionResponse.status()) {
             case 400:
                 throw new IllegalArgumentException(exceptionResponse.message());
@@ -33,7 +36,9 @@ public class RestTemplateResponseHandler implements ResponseErrorHandler {
             case 409:
                 throw new DataIntegrityViolationException(exceptionResponse.message());
             case 500:
-                throw new RuntimeException(exceptionResponse.message());
+                throw new IllegalStateException(exceptionResponse.message());
+            case 502:
+                throw new ConnectionDetailsNotFoundException(exceptionResponse.message());
             default:
                 throw new RuntimeException(exceptionResponse.message());
         }
