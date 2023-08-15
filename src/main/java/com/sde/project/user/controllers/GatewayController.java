@@ -2,6 +2,7 @@ package com.sde.project.user.controllers;
 
 import com.sde.project.user.models.requests.SessionFrontendRequest;
 import com.sde.project.user.models.requests.SessionServiceRequest;
+import com.sde.project.user.models.responses.FileResponse;
 import com.sde.project.user.models.responses.SessionDetailsResponse;
 import com.sde.project.user.models.responses.SessionResponse;
 import com.sde.project.user.models.tables.User;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/v1/")
@@ -27,9 +29,12 @@ public class GatewayController {
 
     @GetMapping(path = "/sessions", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<SessionResponse> getSessions() {
-        return gatewayService.getSessions();
+    public List<SessionResponse> getSessions(@RequestParam Optional<String> subject) {
+        return subject.isPresent() ?
+                gatewayService.getSessionsBySubject(subject.get()) :
+                gatewayService.getSessions();
     }
+    
     @GetMapping(path = "/sessions/me", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<SessionResponse> getUserSessions(@CookieValue("jwt") String token) {
@@ -48,6 +53,13 @@ public class GatewayController {
     public SessionDetailsResponse getSessionDetails(@CookieValue("jwt") String token, @PathVariable String sessionId) {
         User user = userService.getUserFromToken(token);
         return gatewayService.getSessionDetails(user.getId().toString(), sessionId);
+    }
+
+    @DeleteMapping(path = "/sessions/{sessionId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSession(@CookieValue("jwt") String token, @PathVariable String sessionId) {
+        User user = userService.getUserFromToken(token);
+        gatewayService.deleteSession(user.getId().toString(), sessionId);
     }
 
     @PostMapping(path = "/sessions/", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -71,6 +83,18 @@ public class GatewayController {
         gatewayService.joinSession(user.getId().toString(), sessionId);
     }
 
+     @PostMapping(path = "/sessions/{sessionId}/leave")
+     @ResponseStatus(HttpStatus.NO_CONTENT)
+        public void leave(@CookieValue("jwt") String token, @PathVariable String sessionId) {
+            User user = userService.getUserFromToken(token);
+            gatewayService.leaveSession(user.getId().toString(), sessionId);
+        }
+
+    @GetMapping(path = "/sessions/{sessionId}/files", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<FileResponse> getFiles(@PathVariable String sessionId) {
+        return gatewayService.getFiles(sessionId);
+    }
 
     @PostMapping(path = "/sessions/{sessionId}/files/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

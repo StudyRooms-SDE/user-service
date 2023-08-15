@@ -1,6 +1,7 @@
 package com.sde.project.user.services;
 
 import com.sde.project.user.models.requests.SessionServiceRequest;
+import com.sde.project.user.models.responses.FileResponse;
 import com.sde.project.user.models.responses.SessionDetailsResponse;
 import com.sde.project.user.models.responses.SessionResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,13 +32,19 @@ public class GatewayService {
         SessionResponse[] array = restTemplate.getForObject(sessionServiceUrl, SessionResponse[].class);
         return List.of(array);
     }
+
     public List<SessionResponse> getUserSessions(String userId) {
-         SessionResponse[] array = restTemplate.getForObject(sessionServiceUrl+"?userId="+userId, SessionResponse[].class);
-            return List.of(array);
+        SessionResponse[] array = restTemplate.getForObject(sessionServiceUrl + "?userId=" + userId, SessionResponse[].class);
+        return List.of(array);
+    }
+
+    public List<SessionResponse> getSessionsBySubject(String subject) {
+        SessionResponse[] array = restTemplate.getForObject(sessionServiceUrl + "?subject=" + subject, SessionResponse[].class);
+        return List.of(array);
     }
 
     public SessionDetailsResponse getSessionDetails(String userId, String sessionId) {
-        return restTemplate.getForObject(sessionServiceUrl+"/"+sessionId+"?userId="+userId, SessionDetailsResponse.class);
+        return restTemplate.getForObject(sessionServiceUrl + "/" + sessionId + "?userId=" + userId, SessionDetailsResponse.class);
     }
 
     public void createSession(SessionServiceRequest request) {
@@ -48,12 +55,18 @@ public class GatewayService {
     }
 
     public void joinSession(String userId, String sessionId) {
-        RequestEntity<Void> requestEntity = RequestEntity.post(sessionServiceUrl+"/"+sessionId+"/participate?userId="+userId)
+        RequestEntity<Void> requestEntity = RequestEntity.post(sessionServiceUrl + "/" + sessionId + "/participate?userId=" + userId)
                 .build();
-        restTemplate.exchange(sessionServiceUrl+"/"+sessionId+"/participate?userId="+userId, HttpMethod.POST, requestEntity, Void.class);
+        restTemplate.exchange(sessionServiceUrl + "/" + sessionId + "/participate?userId=" + userId, HttpMethod.POST, requestEntity, Void.class);
     }
+
+    public void deleteSession(String userId, String sessionId) {
+        restTemplate.delete(sessionServiceUrl + "/" + sessionId +  "?userId=" + userId);
+    }
+
+
     public void uploadFile(String sessionId, MultipartFile file) {
-        String url = fileServiceUrl+"/upload?sessionId="+sessionId;
+        String url = fileServiceUrl + "/upload?sessionId=" + sessionId;
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -65,13 +78,32 @@ public class GatewayService {
     }
 
     public void deleteFile(String fileId) {
-        RequestEntity<Void> requestEntity = RequestEntity.delete(fileServiceUrl+"/"+ fileId)
+        RequestEntity<Void> requestEntity = RequestEntity.delete(fileServiceUrl + "/" + fileId)
                 .build();
-        restTemplate.exchange(fileServiceUrl+"/"+ fileId, HttpMethod.DELETE, requestEntity, Void.class);
+        restTemplate.exchange(fileServiceUrl + "/" + fileId, HttpMethod.DELETE, requestEntity, Void.class);
     }
 
     public List<String> getSubjects() {
-        String[] array = restTemplate.getForObject(sessionServiceUrl+"/subjects", String[].class);
+        String[] array = restTemplate.getForObject(sessionServiceUrl + "/subjects", String[].class);
         return List.of(array != null ? array : new String[0]);
+    }
+
+    public List<FileResponse> getFiles(String sessionId) {
+        FileResponse[] array = restTemplate.getForObject(fileServiceUrl + "?sessionId=" + sessionId, FileResponse[].class);
+        return List.of(array != null ? array : new FileResponse[0]);
+    }
+
+    public void leaveSession(String string, String sessionId) {
+        restTemplate.postForEntity(sessionServiceUrl + "/" + sessionId + "/leave?userId=" + string, null, Void.class);
+    }
+
+    public void deleteUserSessions(String userId) {
+     getUserSessions(userId).forEach(session -> {
+         if (session.createdByUser()) {
+             deleteSession(userId, session.sessionId().toString());
+         } else {
+             leaveSession(userId, session.sessionId().toString());
+         }
+     });
     }
 }

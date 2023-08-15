@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
@@ -46,5 +48,9 @@ public class UserService implements UserDetailsService {
         userRepository.findByEmail(user.getEmail()).ifPresent(u -> {
             throw new DataIntegrityViolationException("Email is already taken!");
         });
+    }
+
+    public void deleteUser(UUID id) {
+        userRepository.deleteById(id);
     }
 }
