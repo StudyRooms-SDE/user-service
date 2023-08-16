@@ -3,6 +3,7 @@ package com.sde.project.user.controllers;
 import com.sde.project.user.models.requests.SessionFrontendRequest;
 import com.sde.project.user.models.requests.SessionServiceRequest;
 import com.sde.project.user.models.responses.FileResponse;
+import com.sde.project.user.models.responses.RoomResponse;
 import com.sde.project.user.models.responses.SessionDetailsResponse;
 import com.sde.project.user.models.responses.SessionResponse;
 import com.sde.project.user.models.tables.User;
@@ -34,7 +35,7 @@ public class GatewayController {
                 gatewayService.getSessionsBySubject(subject.get()) :
                 gatewayService.getSessions();
     }
-    
+
     @GetMapping(path = "/sessions/me", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<SessionResponse> getUserSessions(@CookieValue("jwt") String token) {
@@ -62,7 +63,7 @@ public class GatewayController {
         gatewayService.deleteSession(user.getId().toString(), sessionId);
     }
 
-    @PostMapping(path = "/sessions/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/sessions", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void createSession(@CookieValue("jwt") String token, @RequestBody SessionFrontendRequest request) {
         User user = userService.getUserFromToken(token);
@@ -107,5 +108,11 @@ public class GatewayController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFile(@PathVariable String fileId) {
         gatewayService.deleteFile(fileId);
+    }
+
+    @GetMapping(path = "/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<RoomResponse> getRooms() {
+        return gatewayService.getRooms();
     }
 }
