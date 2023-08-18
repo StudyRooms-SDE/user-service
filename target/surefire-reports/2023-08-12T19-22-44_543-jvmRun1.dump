@@ -1,0 +1,181 @@
+# Created at 2023-08-12T19:22:48.090
+Exiting self fork JVM. Received SHUTDOWN command from Maven shutdown hook.
+Thread dump before exiting the process (11227@manuela):
+"main" 
+   java.lang.Thread.State: RUNNABLE
+        at java.base@17.0.7/java.util.concurrent.ConcurrentHashMap.get(ConcurrentHashMap.java:936)
+        at java.base@17.0.7/sun.security.util.SecurityProviderConstants.getAliases(SecurityProviderConstants.java:83)
+        at platform/jdk.crypto.cryptoki@17.0.7/sun.security.pkcs11.SunPKCS11.dA(SunPKCS11.java:472)
+        at platform/jdk.crypto.cryptoki@17.0.7/sun.security.pkcs11.SunPKCS11.<clinit>(SunPKCS11.java:716)
+        at java.base@17.0.7/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+        at java.base@17.0.7/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+        at java.base@17.0.7/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+        at java.base@17.0.7/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+        at java.base@17.0.7/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+        at java.base@17.0.7/java.util.ServiceLoader$ProviderImpl.newInstance(ServiceLoader.java:789)
+        at java.base@17.0.7/java.util.ServiceLoader$ProviderImpl.get(ServiceLoader.java:729)
+        at java.base@17.0.7/java.util.ServiceLoader$3.next(ServiceLoader.java:1403)
+        at java.base@17.0.7/sun.security.jca.ProviderConfig$ProviderLoader.load(ProviderConfig.java:347)
+        at java.base@17.0.7/sun.security.jca.ProviderConfig$3.run(ProviderConfig.java:254)
+        at java.base@17.0.7/sun.security.jca.ProviderConfig$3.run(ProviderConfig.java:248)
+        at java.base@17.0.7/java.security.AccessController.executePrivileged(AccessController.java:776)
+        at java.base@17.0.7/java.security.AccessController.doPrivileged(AccessController.java:318)
+        at java.base@17.0.7/sun.security.jca.ProviderConfig.doLoadProvider(ProviderConfig.java:248)
+        at java.base@17.0.7/sun.security.jca.ProviderConfig.getProvider(ProviderConfig.java:226)
+        at java.base@17.0.7/sun.security.jca.ProviderList.getProvider(ProviderList.java:268)
+        at java.base@17.0.7/sun.security.jca.ProviderList.getService(ProviderList.java:381)
+        at java.base@17.0.7/sun.security.jca.GetInstance.getInstance(GetInstance.java:157)
+        at java.base@17.0.7/java.security.Security.getImpl(Security.java:676)
+        at java.base@17.0.7/java.security.AlgorithmParameters.getInstance(AlgorithmParameters.java:157)
+        at java.base@17.0.7/sun.security.ssl.NamedGroup.<init>(NamedGroup.java:269)
+        at java.base@17.0.7/sun.security.ssl.NamedGroup.<clinit>(NamedGroup.java:184)
+        at java.base@17.0.7/sun.security.ssl.SignatureScheme.<clinit>(SignatureScheme.java:51)
+        at java.base@17.0.7/sun.security.ssl.SSLSessionImpl.<clinit>(SSLSessionImpl.java:814)
+        at java.base@17.0.7/sun.security.ssl.TransportContext.<init>(TransportContext.java:152)
+        at java.base@17.0.7/sun.security.ssl.TransportContext.<init>(TransportContext.java:121)
+        at java.base@17.0.7/sun.security.ssl.SSLSocketImpl.<init>(SSLSocketImpl.java:283)
+        at java.base@17.0.7/sun.security.ssl.SSLSocketFactoryImpl.createSocket(SSLSocketFactoryImpl.java:110)
+        at app//org.postgresql.ssl.WrappedFactory.createSocket(WrappedFactory.java:45)
+        at app//org.postgresql.ssl.MakeSSL.convert(MakeSSL.java:37)
+        at app//org.postgresql.core.v3.ConnectionFactoryImpl.enableSSL(ConnectionFactoryImpl.java:620)
+        at app//org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:191)
+        at app//org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:258)
+        at app//org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+        at app//org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:263)
+        at app//org.postgresql.Driver.makeConnection(Driver.java:443)
+        at app//org.postgresql.Driver.connect(Driver.java:297)
+        at app//com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+        at app//com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:359)
+        at app//com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:201)
+        at app//com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:470)
+        at app//com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+        at app//com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:100)
+        at app//com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+        at app//org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:160)
+        at app//org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:118)
+        at app//org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81)
+        at app//org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:332)
+        at app//org.springframework.boot.jdbc.EmbeddedDatabaseConnection.isEmbedded(EmbeddedDatabaseConnection.java:168)
+        at app//org.springframework.boot.autoconfigure.orm.jpa.HibernateDefaultDdlAutoProvider.getDefaultDdlAuto(HibernateDefaultDdlAutoProvider.java:42)
+        at app//org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration.lambda$getVendorProperties$1(HibernateJpaConfiguration.java:142)
+        at app//org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$Lambda$901/0x0000000801471298.get(Unknown Source)
+        at app//org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings.getDdlAuto(HibernateSettings.java:41)
+        at app//org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties$$Lambda$905/0x0000000801472858.get(Unknown Source)
+        at app//org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties.determineDdlAuto(HibernateProperties.java:118)
+        at app//org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties.getAdditionalProperties(HibernateProperties.java:87)
+        at app//org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties.determineHibernateProperties(HibernateProperties.java:80)
+        at app//org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration.getVendorProperties(HibernateJpaConfiguration.java:143)
+        at app//org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration.entityManagerFactory(JpaBaseConfiguration.java:131)
+        at java.base@17.0.7/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.base@17.0.7/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+        at java.base@17.0.7/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.base@17.0.7/java.lang.reflect.Method.invoke(Method.java:568)
+        at app//org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:139)
+        at app//org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:655)
+        at app//org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:647)
+        at app//org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1332)
+        at app//org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1162)
+        at app//org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+        at app//org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+        at app//org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+        at app//org.springframework.beans.factory.support.AbstractBeanFactory$$Lambda$627/0x000000080125a6c8.getObject(Unknown Source)
+        at app//org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+        at app//org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+        at app//org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+        at app//org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1155)
+        at app//org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932)
+        at app//org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+        at app//org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734)
+        at app//org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:436)
+        at app//org.springframework.boot.SpringApplication.run(SpringApplication.java:312)
+        at app//org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+        at app//org.springframework.boot.test.context.SpringBootContextLoader$$Lambda$479/0x0000000801174430.getWithException(Unknown Source)
+        at app//org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+        at app//org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+        at app//org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1406)
+        at app//org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:545)
+        at app//org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+        at app//org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+        at app//org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:187)
+        at app//org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:119)
+        at app//org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:127)
+        at app//org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:191)
+        at app//org.springframework.test.context.web.ServletTestExecutionListener.prepareTestInstance(ServletTestExecutionListener.java:130)
+        at app//org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:241)
+        at app//org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:138)
+
+"Reference Handler" 
+   java.lang.Thread.State: RUNNABLE
+        at java.base@17.0.7/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+        at java.base@17.0.7/java.lang.ref.Reference.processPendingReferences(Reference.java:253)
+        at java.base@17.0.7/java.lang.ref.Reference$ReferenceHandler.run(Reference.java:215)
+
+"Finalizer" 
+   java.lang.Thread.State: WAITING
+        at java.base@17.0.7/java.lang.Object.wait(Native Method)
+        at java.base@17.0.7/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:155)
+        at java.base@17.0.7/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:176)
+        at java.base@17.0.7/java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:172)
+
+"Signal Dispatcher" 
+   java.lang.Thread.State: RUNNABLE
+
+"Notification Thread" 
+   java.lang.Thread.State: RUNNABLE
+
+"Common-Cleaner" 
+   java.lang.Thread.State: TIMED_WAITING
+        at java.base@17.0.7/java.lang.Object.wait(Native Method)
+        at java.base@17.0.7/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:155)
+        at java.base@17.0.7/jdk.internal.ref.CleanerImpl.run(CleanerImpl.java:140)
+        at java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+        at java.base@17.0.7/jdk.internal.misc.InnocuousThread.run(InnocuousThread.java:162)
+
+"surefire-forkedjvm-stream-flusher" 
+   java.lang.Thread.State: TIMED_WAITING
+        at java.base@17.0.7/jdk.internal.misc.Unsafe.park(Native Method)
+        at java.base@17.0.7/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:252)
+        at java.base@17.0.7/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1672)
+        at java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+        at java.base@17.0.7/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+        at java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1062)
+        at java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1122)
+        at java.base@17.0.7/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+        at java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+
+"surefire-forkedjvm-command-thread" 
+   java.lang.Thread.State: RUNNABLE
+        at java.management@17.0.7/sun.management.ThreadImpl.getThreadInfo1(Native Method)
+        at java.management@17.0.7/sun.management.ThreadImpl.getThreadInfo(ThreadImpl.java:197)
+        at app//org.apache.maven.surefire.booter.ForkedBooter.generateThreadDump(ForkedBooter.java:579)
+        at app//org.apache.maven.surefire.booter.ForkedBooter.access$600(ForkedBooter.java:79)
+        at app//org.apache.maven.surefire.booter.ForkedBooter$4.update(ForkedBooter.java:315)
+        at app//org.apache.maven.surefire.booter.CommandReader$CommandRunnable.callListeners(CommandReader.java:357)
+        at app//org.apache.maven.surefire.booter.CommandReader$CommandRunnable.exitByConfiguration(CommandReader.java:367)
+        at app//org.apache.maven.surefire.booter.CommandReader$CommandRunnable.run(CommandReader.java:330)
+        at java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+
+"SIGINT handler" 
+   java.lang.Thread.State: WAITING
+        at java.base@17.0.7/java.lang.Object.wait(Native Method)
+        at java.base@17.0.7/java.lang.Thread.join(Thread.java:1304)
+        at java.base@17.0.7/java.lang.Thread.join(Thread.java:1372)
+        at java.base@17.0.7/java.lang.ApplicationShutdownHooks.runHooks(ApplicationShutdownHooks.java:107)
+        at java.base@17.0.7/java.lang.ApplicationShutdownHooks$1.run(ApplicationShutdownHooks.java:46)
+        at java.base@17.0.7/java.lang.Shutdown.runHooks(Shutdown.java:130)
+        at java.base@17.0.7/java.lang.Shutdown.exit(Shutdown.java:173)
+        at java.base@17.0.7/java.lang.Terminator$1.handle(Terminator.java:51)
+        at java.base@17.0.7/jdk.internal.misc.Signal$1.run(Signal.java:219)
+        at java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+
+"SpringApplicationShutdownHook" 
+   java.lang.Thread.State: BLOCKED
+        at app//org.springframework.context.support.AbstractApplicationContext.close(AbstractApplicationContext.java:1027)
+        at app//org.springframework.boot.SpringApplicationShutdownHook.closeAndWait(SpringApplicationShutdownHook.java:139)
+        at app//org.springframework.boot.SpringApplicationShutdownHook$$Lambda$928/0x00000008014833b8.accept(Unknown Source)
+        at java.base@17.0.7/java.lang.Iterable.forEach(Iterable.java:75)
+        at app//org.springframework.boot.SpringApplicationShutdownHook.run(SpringApplicationShutdownHook.java:108)
+        at java.base@17.0.7/java.lang.Thread.run(Thread.java:833)
+
+
+
